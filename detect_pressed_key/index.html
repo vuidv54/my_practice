@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detect Pressed Key</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="alert-box">Press any key</div>
+
+    <div class="info-key">
+        <div class="info-position">18</div>
+
+        <div class="about-key">
+            <div class="about-key-item">
+                <div class="key-title">Key</div>
+                <div class="key-info key-name"></div>
+            </div>
+            <div class="about-key-item">
+                <div class="key-title">Location</div>
+                <div class="key-info key-position"></div>
+            </div>
+            <div class="about-key-item">
+                <div class="key-title">Which</div>
+                <div class="key-info key-which"></div>
+            </div>
+            <div class="about-key-item">
+                <div class="key-title">Code</div>
+                <div class="key-info key-code"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        const alertBox = document.querySelector('.alert-box')
+        const infoBox = document.querySelector('.info-key')
+        const keyName = document.querySelector('.key-name')
+        const keyPosition = document.querySelector('.key-position')
+        const keyWhich = document.querySelector('.key-which')
+        const keyCode = document.querySelector('.key-code')
+
+        document.onkeydown = (e) => {
+            alertBox.style.display = 'none'
+            keyName.innerHTML = e.key
+            keyPosition.innerHTML = e.location
+            keyWhich.innerHTML = e.which
+            keyCode.innerHTML = e.code
+            infoBox.style.display = 'block'
+        }
+    </script>
+</body>
+</html>

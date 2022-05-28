@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./fonts/themify-icons/themify-icons.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="image-item">
+            <div class="image-cover">
+                <img src="./images/img1.jpeg" alt="Hehe" class="img">
+            </div>
+        </div>
+        <div class="image-item">
+            <div class="image-cover">
+                <img src="./images/img2.jpeg" alt="Hehe" class="img">
+            </div>
+        </div>
+        <div class="image-item">
+            <div class="image-cover">
+                <img src="./images/img3.jpeg" alt="Hehe" class="img">
+            </div>
+        </div>
+        <div class="image-item">
+            <div class="image-cover">
+                <img src="./images/img4.jpeg" alt="Hehe" class="img">
+            </div>
+        </div>
+        <div class="image-item">
+            <div class="image-cover">
+                <img src="./images/img5.jpeg" alt="Hehe" class="img">
+            </div>
+        </div>
+        <div class="image-item">
+            <div class="image-cover">
+                <img src="./images/img6.jpeg" alt="Hehe" class="img">
+            </div>
+        </div>
+        <div class="image-item">
+            <div class="image-cover">
+                <img src="./images/img7.jpeg" alt="Hehe" class="img">
+            </div>
+        </div>
+        <div class="image-item">
+            <div class="image-cover">
+                <img src="./images/img8.jpeg" alt="Hehe" class="img">
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Gallery -->
+    <div class="gallery">
+        
+    </div>
+
+
+    <script>
+        const imgs = document.querySelectorAll('.img')
+        const galleryElement = document.querySelector('.gallery');
+
+        const gallery = {
+
+            currentIndex: 0,
+
+            images: [
+                {
+                    path: './images/img1.jpeg'
+                },
+                {
+                    path: './images/img2.jpeg'
+                },
+                {
+                    path: './images/img3.jpeg'
+                },
+                {
+                    path: './images/img4.jpeg'
+                },
+                {
+                    path: './images/img5.jpeg'
+                },
+                {
+                    path: './images/img6.jpeg'
+                },
+                {
+                    path: './images/img7.jpeg'
+                },
+                {
+                    path: './images/img8.jpeg'
+                }
+            ],
+
+            renderUI() {
+                let htmls = `<div class="gallery-overlay">
+                    <div class="gallery-container">
+                        <img src="${this.images[this.currentIndex].path}" alt="Hehe">
+                    </div>
+    
+                    <div class="btn-close">
+                        <i class="ti-close"></i>
+                    </div>
+                    <div class="btn-next-image ${this.currentIndex == 7 ? 'hidden' : ''}">
+                        <i class="ti-angle-right"></i>
+                    </div>
+                    <div class="btn-prev-image ${this.currentIndex == 0 ? 'hidden' : ''}">
+                        <i class="ti-angle-left"></i>
+                    </div>
+                </div>`
+                galleryElement.innerHTML = htmls
+            },
+
+            displayGallery() {
+                const this_ = this
+
+                for(let i = 0; i < imgs.length; i++) {
+                    imgs[i].onclick = function () {
+                        this_.currentIndex = i;
+                        galleryElement.classList.add('gallery--open')
+                        this_.renderUI()
+                    }
+                }
+            },
+
+            handleEvent(e) {
+                // Xử lý đóng gallery
+                const closeBtn = e.target.closest('.btn-close')
+                if(closeBtn) {   
+                        galleryElement.classList.remove('gallery--open')
+                }
+
+                // Xử lý next gallery
+                const nextBtn = e.target.closest('.btn-next-image')
+                if(nextBtn) {
+                    this.currentIndex++
+                    if(this.currentIndex > imgs.length - 1 ) {
+                        this.currentIndex = imgs.length - 1;
+                    }
+                    this.renderUI()
+                }
+
+                // Xử lý prev gallery
+                const prevBtn = e.target.closest('.btn-prev-image')
+                if(prevBtn) {
+                    this.currentIndex--
+                    if(this.currentIndex < 0 ) {
+                        this.currentIndex = 0;
+                    }
+                    this.renderUI()
+                }
+            },
+
+            start() {
+                galleryElement.onclick = this.handleEvent.bind(this)
+                
+                this.displayGallery();
+                
+                this.renderUI();
+            }
+        }
+
+        gallery.start();
+        
+    </script>
+</body>
+</html>

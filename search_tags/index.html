@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Tags</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <h2 class="title">Search Tags</h2>
+        <ul class="list-search">
+            <div class="list-container-item">
+
+            </div>
+            <input type="text" class="search-input" placeholder="Type and Enter">
+        </ul>
+        <button class="btn-clear-all-search">Remove All</button>
+    </div>
+
+
+    <script>
+        const clearBtn = document.querySelector('.btn-clear-all-search')
+        const listCourse = document.querySelector('.list-container-item');
+        const input = document.querySelector('.search-input');
+
+        const app = (() => {
+            const courses = ['nodejs', 'reactjs']
+
+            return {
+                render() {
+                    let htmls = courses.map((course, index) => {
+                        return `
+                        <li class="search-item">
+                            ${course}
+                            <span class="btn-remove" data-index=${index}>&times;</span>
+                        </li>
+                        `
+                    }).join("")
+
+                    listCourse.innerHTML = htmls
+                },
+
+                add() {
+                    courses.push(input.value)
+                },
+
+                delete(index) {
+                    courses.splice(index, 1)
+                    this.render()
+                },
+
+                clearAll() {
+                    clearBtn.onclick = () => {
+                        courses.splice(0, courses.length)
+                        this.render()
+                        input.focus()
+                    }
+                },
+
+                handleClick(e) {
+                    const clearItemBtn = e.target.closest('.btn-remove')
+                    if(clearItemBtn) {
+                        const index = clearItemBtn.dataset.index;
+                        this.delete(index)
+                    }
+                },
+
+                init() {
+                    this.clearAll()
+                    
+                    this.render()
+
+                    // Handle Dom events
+                    input.onkeydown = (e) => {
+                        if(e.key === 'Enter') {
+                            this.add()
+                            this.render()
+                            input.value = ''
+                            input.focus()
+                        }
+                    }
+
+                    listCourse.onclick = this.handleClick.bind(this)                    
+                }
+            }
+        })()
+
+        app.init()
+    </script>
+</body>
+</html>

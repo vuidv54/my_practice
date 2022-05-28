@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./fonts/themify-icons/themify-icons.css">
+</head>
+<body>
+    <button class="btn--open--modal">Open Modal</button>
+
+    <!-- Modal -->
+    <div class="modal">
+        <div class="modal__overlay">
+            <div class="modal__box">
+                <div class="modal__header">
+                    <p class="modal__header--heading">Welcome to my Practice</p>
+                    <i class="ti-close btn--close"></i>
+                </div>
+
+                <div class="modal__body">
+                    <div class="modal__title">Modal title</div>
+                    <p class="modal__content">Đây là phần body của modal</p>
+                </div>
+
+                <div class="modal__footer">
+                    <button class="modal__btn--close">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const btnOpen = document.querySelector('.btn--open--modal')
+        const modal = document.querySelector('.modal')
+        const iconClose = document.querySelector('.btn--close')
+        const btnClose = document.querySelector('.modal__btn--close')
+        const overLay = document.querySelector('.modal__overlay')
+        const container = document.querySelector('.modal__box')
+
+        function openModal () {
+            modal.classList.add('modal--open')
+        }
+
+        function closeModal () {
+            modal.classList.remove('modal--open')
+        }
+
+        btnOpen.addEventListener('click', openModal)
+
+        iconClose.addEventListener('click', closeModal)
+
+        btnClose.addEventListener('click', closeModal)
+
+        overLay.addEventListener('click', closeModal)
+
+        container.addEventListener('click', function () {
+            event.stopPropagation()
+        })
+    </script>
+</body>
+</html>
