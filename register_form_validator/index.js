@@ -31,8 +31,10 @@ function Validator (formSelector, options) {
             }
         },
 
-        checkpass(value, pass) {
-            return value === pass ? undefined : 'Không trùng mật khẩu, vui lòng nhập lại'
+        checkpass(pass) {
+            return function (value) {
+                return value === pass.value ? undefined : 'Không trùng mật khẩu, vui lòng nhập lại'
+            }
         }
     }
 
@@ -56,7 +58,10 @@ function Validator (formSelector, options) {
                 let ruleFunc = validatorRules[ruleName]
 
                 if(isRuleNameHasValue) {
-                    ruleFunc = ruleFunc(ruleInfo[1])
+                    if(ruleInfo[1] === 'passvalue') {
+                        ruleInfo[1] = formElement.querySelector('#password')
+                    }
+                    ruleFunc = ruleFunc(ruleInfo[1])                    
                 }
 
                 if(Array.isArray(formRules[input.name])) {
@@ -105,6 +110,33 @@ function Validator (formSelector, options) {
             }
         }
 
-    }
+        formElement.onsubmit = function (e) {
+            e.preventDefault()
 
+            let inputs = formElement.querySelectorAll('[name][rules]')
+            let isValid = true
+
+            for(let input of inputs) {
+                if(!handleValidate({target: input,})) {
+                    isValid = false
+                }
+            }
+
+            if(isValid) {
+                if(typeof options.onSubmit === 'function') {
+                    let enableInputs = formElement.querySelectorAll('[name]')
+                    let data = Array.from(enableInputs).reduce(function(values, input) {
+                        switch (input.type) {
+                            default:
+                                values[input.name] = input.value
+                        }
+                        return values
+                    }, {})
+                    options.onSubmit(data)
+                } else {
+                    formElement.submit();
+                }
+            }
+        }
+    }
 }
